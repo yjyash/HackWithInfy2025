@@ -1,21 +1,27 @@
+import java.util.*;
+// import java.util.Math;
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        if(amount==0)
+        int [] dp = new int[amount+1];
+        Arrays.fill(dp, amount+1);
+        dp[0] = 0;
+        for(int i=1;i<=amount;i++)
         {
-            return 0;
-        }
-        Arrays.sort(coins);
-        int ans=0;
-        for(int i=coins.length-1; i>=0; i--)
-        {
-            while(amount>=coins[i])
+            for(int coin:coins)
             {
-                amount-=coins[i];
-                ans += 1;
+                if(i>=coin)
+                {
+                    dp[i] = Math.min(dp[i], dp[i-coin] + 1);
+                }
             }
         }
-        if(amount==0) return ans;
-        else return -1;
+        if(amount<dp[amount])
+        {
+            return -1;
+        }
+        else{
+            return dp[amount];
+        }
         
     }
 }
